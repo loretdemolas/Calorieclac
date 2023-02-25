@@ -3,11 +3,24 @@ import { Container, Typography } from "@mui/material";
 import TextInput from "./Components/TextField";
 import ActivitySelector from "./Components/ActivitySelector";
 import SexSelector from "./Components/SexSelector";
-import { ActivityLevelContext, AgeContext, HeightContext, SexContext, WeightContext } from "./Components/Context";
 import CalorieCalculator from "./Components/CalorieCalcFunc";
+import { useState } from "react";
 
 
 export default function App({input}:any) {
+
+  const initialValues ={
+    age: '',
+  }
+  
+  const [Data, setData] = useState(initialValues);
+  const display = () => console.log(Data);
+    
+    const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const eventData = ({...Data, [event.target.name]: event.target.value });
+        setData(eventData);
+        
+    }
 
   return (
     <Container maxWidth='sm'>
@@ -59,33 +72,26 @@ export default function App({input}:any) {
           noValidate
           autoComplete="off"
         >
-          <AgeContext.Provider value={input}>
+          <button onClick={display}>test</button>
             <TextInput 
               name={"age"} 
               type={"number"} 
-              adornment={""}    
+              adornment={""}
+              onChange={inputHandler}
+              value={Data.age}    
             />
-          </AgeContext.Provider>
-          <WeightContext.Provider value={input}>
             <TextInput
               name={"weight"}
               type={"number"}
               adornment={"lb"}
-            />
-          </WeightContext.Provider>
-          <HeightContext.Provider value={input}>
+            />      
             <TextInput
               name={"height"}
               type={"number"}
               adornment={"Inches"}
-            />
-          </HeightContext.Provider>
-          <ActivityLevelContext.Provider value={input}>
+            />          
             <ActivitySelector/>
-          </ActivityLevelContext.Provider>
-          <SexContext.Provider value={input}>
             <SexSelector/>
-          </SexContext.Provider>
         <Box
           sx={{ 
             m:2,
